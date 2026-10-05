@@ -25,6 +25,7 @@ class CacheStorage
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly MimeTypeGuesser $mimeTypeGuesser,
         private readonly MediaVariationPropertyAccessor $mediaVariationPropertyAccessor,
+        private readonly bool $storeOnCreate = false,
     ) {
     }
 
@@ -248,6 +249,11 @@ class CacheStorage
             $mediaVariation->getVariation(),
         );
         $this->filesystem->write($path, $mediaVariation->getBinary()->getContent());
+    }
+
+    public function mustStoreOnCreate(): bool
+    {
+        return $this->storeOnCreate;
     }
 
     public function mustStoreWhenGeneratingUrl(MediaVariation $mediaVariation): bool
